@@ -14,7 +14,7 @@
         <select id="products" name="products">
             <option value="">Select an option</option>
             {% for start in starts %}
-            <option value={{ start["start"] }}>{{ start["start"] }}</option>
+            <option value="{{ start["start"] }}">{{ start["start"] }}</option>
             {% endfor %}
         </select>
         <input type="text" id="textproduct" name="textproduct" placeholder="Type or select an option">
@@ -22,7 +22,7 @@
         <select id="size" name="size">
             <option value="">Select an option</option>
             {% for size in sizes %}
-            <option value={{ size["size"] }}>{{ size["size"] }}</option>
+            <option value="{{ size["size"] }}">{{ size["size"] }}</option>
             {% endfor %}
         </select>
         <input type="text" id="textsize" name="textsize" placeholder="Type or select an option">
@@ -30,7 +30,7 @@
         <select id="type" name="type">
             <option value="">Select an option</option>
             {% for type in types %}
-            <option value={{ type["type"] }}>{{ type["type"] }}</option>
+            <option value="{{ type["type"] }}">{{ type["type"] }}</option>
             {% endfor %}
         </select>
         <input type="text" id="texttype" name="texttype" placeholder="Type or select an option">
