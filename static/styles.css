@@ -3,7 +3,7 @@
 body {
     font-family: 'DM Serif Display', serif;
     background: #201315;
-    height: 100vh;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,8 +27,8 @@ button {
 }
 
 form {
-    width: 70vh:
-    height: 80vh;
+    width: 70vw:
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,8 +42,7 @@ label {
 }
 
 h1 {
-    position: absolute;
-    top: 10px;
+    justify-self: top;
     font-size: 50px;
     color: #f8f3eb;
 }
