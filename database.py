@@ -3,7 +3,16 @@ from mysql.connector import connect
   
     
 def querystart():
-    conn = connect(user=os.environ['username'], password=os.environ['password'], host=os.environ['host'], database=os.environ['database'])
+    conn = connect(
+      user=os.environ['username'], 
+      password=os.environ['password'], 
+      host=os.environ['host'], 
+      database=os.environ['database'],
+      ssl_mode = "VERIFY_IDENTITY",
+      ssl = {
+        "ca": "/etc/ssl/cert.pem"
+      }
+    )
     data = []
     with conn.cursor() as cursor:
         cursor.execute("SELECT DISTINCT product FROM products")
@@ -18,7 +27,16 @@ def querystart():
         
 
 def querysize(product):
-    conn = connect(user=os.environ['username'], password=os.environ['password'], host=os.environ['host'], database=os.environ['database'])
+    conn = connect(
+      user=os.environ['username'], 
+      password=os.environ['password'], 
+      host=os.environ['host'], 
+      database=os.environ['database'],
+      ssl_mode = "VERIFY_IDENTITY",
+      ssl = {
+        "ca": "/etc/ssl/cert.pem"
+      }
+    )
     data = []
     with conn.cursor() as cursor:
         query = f"SELECT DISTINCT size FROM products WHERE product='{product}'"
@@ -34,7 +52,16 @@ def querysize(product):
         
 
 def queryresult(product, size, type):
-    conn = connect(user=os.environ['username'], password=os.environ['password'], host=os.environ['host'], database=os.environ['database'])
+    conn = connect(
+      user=os.environ['username'], 
+      password=os.environ['password'], 
+      host=os.environ['host'], 
+      database=os.environ['database'],
+      ssl_mode = "VERIFY_IDENTITY",
+      ssl = {
+        "ca": "/etc/ssl/cert.pem"
+      }
+    )
     data = []
     with conn.cursor() as cursor:
         cursor.execute("SELECT id FROM products WHERE product = %s AND size = %s AND type = %s", (product, size, type,))
@@ -49,7 +76,16 @@ def queryresult(product, size, type):
 
 
 def querytype(product, size):
-    conn = connect(user=os.environ['username'], password=os.environ['password'], host=os.environ['host'], database=os.environ['database'])
+    conn = connect(
+      user=os.environ['username'], 
+      password=os.environ['password'], 
+      host=os.environ['host'], 
+      database=os.environ['database'],
+      ssl_mode = "VERIFY_IDENTITY",
+      ssl = {
+        "ca": "/etc/ssl/cert.pem"
+      }
+    )
     data = []
     with conn.cursor() as cursor:
         query = f"SELECT DISTINCT type FROM products WHERE product='{product}' AND size='{size}'"
@@ -65,7 +101,16 @@ def querytype(product, size):
 
 
 def queryall(product, size):
-    conn = connect(user=os.environ['username'], password=os.environ['password'], host=os.environ['host'], database=os.environ['database'])
+    conn = connect(
+      user=os.environ['username'], 
+      password=os.environ['password'], 
+      host=os.environ['host'], 
+      database=os.environ['database'],
+      ssl_mode = "VERIFY_IDENTITY",
+      ssl = {
+        "ca": "/etc/ssl/cert.pem"
+      }
+    )
     data = []
     with conn.cursor() as cursor:
         cursor.execute("SELECT id FROM products WHERE product = %s AND size = %s", (product, size,))
@@ -80,7 +125,16 @@ def queryall(product, size):
 
 
 def addproduct(product, size, type):
-    conn = connect(user=os.environ['username'], password=os.environ['password'], host=os.environ['host'], database=os.environ['database'])
+    conn = connect(
+      user=os.environ['username'], 
+      password=os.environ['password'], 
+      host=os.environ['host'], 
+      database=os.environ['database'],
+      ssl_mode = "VERIFY_IDENTITY",
+      ssl = {
+        "ca": "/etc/ssl/cert.pem"
+      }
+    )
     with conn.cursor() as cursor:
         cursor.execute("INSERT INTO products (product, size, type) VALUES (%s, %s, %s)", (product, size, type,))
         conn.commit()
@@ -89,7 +143,16 @@ def addproduct(product, size, type):
     
     
 def select_options(parameter):
-    conn = connect(user=os.environ['username'], password=os.environ['password'], host=os.environ['host'], database=os.environ['database'])
+    conn = connect(
+      user=os.environ['username'], 
+      password=os.environ['password'], 
+      host=os.environ['host'], 
+      database=os.environ['database'],
+      ssl_mode = "VERIFY_IDENTITY",
+      ssl = {
+        "ca": "/etc/ssl/cert.pem"
+      }
+    )
     data = []
     with conn.cursor() as cursor:
         query = f"SELECT DISTINCT {parameter} FROM products"
@@ -105,7 +168,16 @@ def select_options(parameter):
 
 
 def deleteproduct(id):
-    conn = connect(user=os.environ['username'], password=os.environ['password'], host=os.environ['host'], database=os.environ['database'])
+    conn = connect(
+      user=os.environ['username'], 
+      password=os.environ['password'], 
+      host=os.environ['host'], 
+      database=os.environ['database'],
+      ssl_mode = "VERIFY_IDENTITY",
+      ssl = {
+        "ca": "/etc/ssl/cert.pem"
+      }
+    )
     with conn.cursor() as cursor:
         cursor.execute("DELETE FROM products WHERE id = %s", (id,))
         conn.commit()
