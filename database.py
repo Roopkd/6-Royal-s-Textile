@@ -1,162 +1,161 @@
-from mysql.connector import connect
+from sqlalchemy import create_engine, text
 import os
 
+
+db_connection_string = os.environ['connection_string']
+
 def querystart():
-    conn = connect(
-        host=os.environ['host'],
-        user=os.environ['username'],
-        password=os.environ['password'],
-        database=os.environ['database'],
-        ssl_ca="/etc/ssl/cert.pem"
-    )
+    engine = create_engine(
+    db_connection_string,
+    connect_args={
+        "ssl": {
+            "ssl_ca": "/etc/ssl/cert.pem"
+        }
+    })
     data = []
-    with conn.cursor() as cursor:
-        cursor.execute("SELECT DISTINCT product FROM products")
-        result = cursor.fetchall()
+    with engine.connect() as cursor:
+        result = cursor.execute(text("SELECT DISTINCT product FROM products")).all()
         key = ('product',)
             
         for row in result:
             data.append(dict(zip(key, row)))
             
-    conn.close()
+    engine.dispose()
     return data
         
 
 def querysize(product):
-    conn = connect(
-        host=os.environ['host'],
-        user=os.environ['username'],
-        password=os.environ['password'],
-        database=os.environ['database'],
-        ssl_ca="/etc/ssl/cert.pem"
-    )
+    engine = create_engine(
+    db_connection_string,
+    connect_args={
+        "ssl": {
+            "ssl_ca": "/etc/ssl/cert.pem"
+        }
+    })
     data = []
-    with conn.cursor() as cursor:
-        query = f"SELECT DISTINCT size FROM products WHERE product='{product}'"
-        cursor.execute(query)
-        result = cursor.fetchall()
+    with engine.connect() as cursor:
+        query = text(f"SELECT DISTINCT size FROM products WHERE product='{product}'")
+        
+        result = cursor.execute(query).all()
         key = ('size',)
             
         for row in result:
             data.append(dict(zip(key, row)))
             
-    conn.close()
+    engine.dispose()
     return data
         
 
 def queryresult(product, size, type):
-    conn = connect(
-        host=os.environ['host'],
-        user=os.environ['username'],
-        password=os.environ['password'],
-        database=os.environ['database'],
-        ssl_ca="/etc/ssl/cert.pem"
-    )
+    engine = create_engine(
+    db_connection_string,
+    connect_args={
+        "ssl": {
+            "ssl_ca": "/etc/ssl/cert.pem"
+        }
+    })
     data = []
-    with conn.cursor() as cursor:
-        cursor.execute("SELECT id FROM products WHERE product = %s AND size = %s AND type = %s", (product, size, type,))
-        result = cursor.fetchall()
+    with engine.connect() as cursor:
+        result = cursor.execute(text("SELECT id FROM products WHERE product = :product AND size = :size AND type = :type"), product=product, size=size, type=type).all()
         key = ('id',)
             
         for row in result:
             data.append(dict(zip(key, row)))
             
-    conn.close()
+    engine.dispose()
     return data
 
 
 def querytype(product, size):
-    conn = connect(
-        host=os.environ['host'],
-        user=os.environ['username'],
-        password=os.environ['password'],
-        database=os.environ['database'],
-        ssl_ca="/etc/ssl/cert.pem"
-    )
+    engine = create_engine(
+    db_connection_string,
+    connect_args={
+        "ssl": {
+            "ssl_ca": "/etc/ssl/cert.pem"
+        }
+    })
     data = []
-    with conn.cursor() as cursor:
-        query = f"SELECT DISTINCT type FROM products WHERE product='{product}' AND size='{size}'"
-        cursor.execute(query)
-        result = cursor.fetchall()
+    with engine.connect() as cursor:
+        query = text(f"SELECT DISTINCT type FROM products WHERE product='{product}' AND size='{size}'")
+        
+        result = cursor.execute(query).all()
         key = ('type',)
             
         for row in result:
             data.append(dict(zip(key, row)))
             
-    conn.close()
+    engine.dispose()
     return data
 
 
 def queryall(product, size):
-    conn = connect(
-        host=os.environ['host'],
-        user=os.environ['username'],
-        password=os.environ['password'],
-        database=os.environ['database'],
-        ssl_ca="/etc/ssl/cert.pem"
-    )
+    engine = create_engine(
+    db_connection_string,
+    connect_args={
+        "ssl": {
+            "ssl_ca": "/etc/ssl/cert.pem"
+        }
+    })
     data = []
-    with conn.cursor() as cursor:
-        cursor.execute("SELECT id FROM products WHERE product = %s AND size = %s", (product, size,))
-        result = cursor.fetchall()
+    with engine.connect() as cursor:
+        
+        result = cursor.execute(text("SELECT id FROM products WHERE product = :product AND size = :size"), product=product, size=size).all()
         key = ('id',)
             
         for row in result:
             data.append(dict(zip(key, row)))
             
-    conn.close()
+    engine.dispose()
     return data
 
 
 def addproduct(product, size, type):
-    conn = connect(
-        host=os.environ['host'],
-        user=os.environ['username'],
-        password=os.environ['password'],
-        database=os.environ['database'],
-        ssl_ca="/etc/ssl/cert.pem"
-    )
-    with conn.cursor() as cursor:
-        cursor.execute("INSERT INTO products (product, size, type) VALUES (%s, %s, %s)", (product, size, type,))
-        conn.commit()
-    conn.close()
+    engine = create_engine(
+    db_connection_string,
+    connect_args={
+        "ssl": {
+            "ssl_ca": "/etc/ssl/cert.pem"
+        }
+    })
+    with engine.connect() as cursor:
+        cursor.execute(text("INSERT INTO products (product, size, type) VALUES (:product, :size, :type)"), product=product, size=size, type=type)
+    engine.dispose()
     return
     
     
 def select_options(parameter):
-    conn = connect(
-        host=os.environ['host'],
-        user=os.environ['username'],
-        password=os.environ['password'],
-        database=os.environ['database'],
-        ssl_ca="/etc/ssl/cert.pem"
-    )
+    engine = create_engine(
+    db_connection_string,
+    connect_args={
+        "ssl": {
+            "ssl_ca": "/etc/ssl/cert.pem"
+        }
+    })
     data = []
-    with conn.cursor() as cursor:
-        query = f"SELECT DISTINCT {parameter} FROM products"
-        cursor.execute(query)
-        result = cursor.fetchall()
+    with engine.connect() as cursor:
+        query = text(f"SELECT DISTINCT {parameter} FROM products")
+        
+        result = cursor.execute(query).all()
         key = (parameter,)
             
         for row in result:
             data.append(dict(zip(key, row)))
             
-    conn.close()
+    engine.dispose()
     return data
 
 
 def deleteproduct(id):
-    conn = connect(
-        host=os.environ['host'],
-        user=os.environ['username'],
-        password=os.environ['password'],
-        database=os.environ['database'],
-        ssl_ca="/etc/ssl/cert.pem"
-    )
-    with conn.cursor() as cursor:
-        cursor.execute("DELETE FROM products WHERE id = %s", (id,))
-        conn.commit()
-    conn.close()
+    engine = create_engine(
+    db_connection_string,
+    connect_args={
+        "ssl": {
+            "ssl_ca": "/etc/ssl/cert.pem"
+        }
+    })
+    with engine.connect() as cursor:
+        cursor.execute(text("DELETE FROM products WHERE id = :id"), id=id)
+    engine.dispose()
     return
 
 
