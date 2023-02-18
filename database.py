@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine, text
 import os
 
-
 db_connection_string = os.environ['connection_string']
 
 def querystart():
@@ -45,7 +44,7 @@ def querysize(product):
     engine.dispose()
     return data
         
-    
+
 def queryresult(product, size, type):
     engine = create_engine(
     db_connection_string,
@@ -99,8 +98,8 @@ def queryall(product, size):
     })
     data = []
     with engine.connect() as cursor:
-        
-        result = cursor.execute(text("SELECT id FROM products WHERE product = :product AND size = :size"), product=product, size=size).all()
+        query = text("SELECT id FROM products WHERE product = :product AND size = :size")
+        result = cursor.execute(query, {'product': product, 'size': size}).all()
         key = ('id',)
             
         for row in result:
@@ -119,7 +118,8 @@ def addproduct(product, size, type):
         }
     })
     with engine.connect() as cursor:
-        cursor.execute(text("INSERT INTO products (product, size, type) VALUES (:product, :size, :type)"), product=product, size=size, type=type)
+    query = text("INSERT INTO products (product, size, type) VALUES (:product, :size, :type)")
+        cursor.execute(query, {'product': product, 'size': size, 'type': type})
     engine.dispose()
     return
     
@@ -155,7 +155,8 @@ def deleteproduct(id):
         }
     })
     with engine.connect() as cursor:
-        cursor.execute(text("DELETE FROM products WHERE id = :id"), id=id)
+        query = text("DELETE FROM products WHERE id = :id")
+        cursor.execute(query, { 'id': id})
     engine.dispose()
     return
 
