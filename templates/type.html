@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Types    
+{% endblock %}
+
+{% block body %}
+
+        <h1>Types</h1>
+        
+        <form action="/product" method="get">
+            <button type="submit" name="type" value="all">All</button>
+        </form>
+
+        <form action="/product" method="get">
+            {% for t in type_data %}
+                <button type="submit" name="type" value="{{ t["type"] }}">{{ t["type"] }}</button>       
+            {% endfor %}
+        </form>
+
+{% endblock %}
