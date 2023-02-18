@@ -118,7 +118,7 @@ def addproduct(product, size, type):
         }
     })
     with engine.connect() as cursor:
-    query = text("INSERT INTO products (product, size, type) VALUES (:product, :size, :type)")
+        query = text("INSERT INTO products (product, size, type) VALUES (:product, :size, :type)")
         cursor.execute(query, {'product': product, 'size': size, 'type': type})
     engine.dispose()
     return
