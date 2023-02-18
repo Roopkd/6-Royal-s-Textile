@@ -45,7 +45,7 @@ def querysize(product):
     engine.dispose()
     return data
         
-
+    
 def queryresult(product, size, type):
     engine = create_engine(
     db_connection_string,
@@ -56,7 +56,8 @@ def queryresult(product, size, type):
     })
     data = []
     with engine.connect() as cursor:
-        result = cursor.execute(text("SELECT id FROM products WHERE product = :product AND size = :size AND type = :type"), product=product, size=size, type=type).all()
+        query = text("SELECT id FROM products WHERE product=:product AND size=:size AND type=:type")
+        result = cursor.execute(query, {'product': product, 'size': size, 'type': type}).all()
         key = ('id',)
             
         for row in result:
