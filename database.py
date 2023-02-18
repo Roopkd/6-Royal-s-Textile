@@ -9,9 +9,7 @@ def querystart():
       host=os.environ['host'], 
       database=os.environ['database'],
       ssl_mode = "VERIFY_IDENTITY",
-      ssl = {
-        "ca": "/etc/ssl/cert.pem"
-      }
+      ssl_ca = "/etc/ssl/cert.pem",
     )
     data = []
     with conn.cursor() as cursor:
