@@ -1,12 +1,15 @@
-import os
 from mysql.connector import connect
-  
+from mysql.connector.constants import ClientFlag
+import os
+
 config = {
-    'user': os.environ['username'],
-    'password': os.environ['password'],
-    'host': os.environ['host'],
-    'database': os.environ['database'],
-    'ssl_ca': '/etc/ssl/cert.pem'
+    "host": os.getenv("host"),
+    "user": os.getenv("username"),
+    "password": os.getenv("password"),
+    "database": os.getenv("database"),
+    "client_flags": [ClientFlag.SSL],
+    "ssl_ca": "/etc/ssl/cert.pem",
+    "ssl_verify_identity": True
 }
   
 
